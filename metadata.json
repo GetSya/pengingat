@@ -1,0 +1,5 @@
+{
+  "name": "Remix: Telegram Reminder Bot (Google Sheets)",
+  "description": "A Telegram bot that sends reminders based on data stored in a Google Spreadsheet.",
+  "requestFramePermissions": []
+}
