@@ -1,5 +1,5 @@
 {
-  "name": "Remix: Telegram Reminder Bot (Google Sheets)",
+  "name": "Notif Xiamo",
   "description": "A Telegram bot that sends reminders based on data stored in a Google Spreadsheet.",
   "requestFramePermissions": []
 }

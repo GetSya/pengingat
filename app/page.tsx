@@ -52,6 +52,7 @@ export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeView, setActiveView] = useState<'dashboard' | 'profile'>('dashboard');
   const [editingItem, setEditingItem] = useState<JTData | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Login Form State
   const [loginData, setLoginData] = useState({ username: '', password: '' });
@@ -481,6 +482,8 @@ export default function Home() {
                       <input 
                         type="text" 
                         placeholder="Cari..." 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                         className="pl-9 pr-4 py-2 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 w-full sm:w-48"
                       />
                     </div>
@@ -521,7 +524,12 @@ export default function Home() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
-                        {jtData.map((item) => {
+                        {jtData
+                          .filter(item => 
+                            item.sumber.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            item.email.toLowerCase().includes(searchQuery.toLowerCase())
+                          )
+                          .map((item) => {
                           const date = parseISO(item.jatuh_tempo);
                           const isToday = format(date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
                           const isPast = isBefore(date, new Date()) && !isToday;

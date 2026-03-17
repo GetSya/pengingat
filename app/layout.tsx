@@ -14,7 +14,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: 'Telegram Reminder Bot',
+  title: 'Notif Xiamo',
   description: 'Automated reminders from Google Sheets to Telegram',
 };
 
