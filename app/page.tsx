@@ -50,9 +50,11 @@ export default function Home() {
   const [success, setSuccess] = useState(false);
   const [loginError, setLoginError] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeView, setActiveView] = useState<'dashboard' | 'profile'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'profile' | 'bot'>('dashboard');
   const [editingItem, setEditingItem] = useState<JTData | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [botUrl, setBotUrl] = useState('');
+  const [botStatus, setBotStatus] = useState<{ success?: boolean; error?: string } | null>(null);
 
   // Login Form State
   const [loginData, setLoginData] = useState({ username: '', password: '' });
@@ -93,6 +95,27 @@ export default function Home() {
     }
   }, []);
 
+  const handleSetWebhook = async () => {
+    setSubmitting(true);
+    setBotStatus(null);
+    try {
+      const res = await fetch('/api/bot/setup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: botUrl }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setBotStatus({ success: true });
+      } else {
+        setBotStatus({ error: data.error });
+      }
+    } catch (err) {
+      setBotStatus({ error: 'Failed to connect to server' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
   const fetchDashboardData = async (userId: string) => {
     setLoading(true);
     try {
@@ -348,6 +371,12 @@ export default function Home() {
             active={activeView === 'profile'} 
             onClick={() => setActiveView('profile')}
           />
+          <SidebarItem 
+            icon={<Bell className="w-4 h-4" />} 
+            label="Bot Settings" 
+            active={activeView === 'bot'} 
+            onClick={() => setActiveView('bot')}
+          />
         </nav>
 
         <div className="p-4 border-t border-slate-800">
@@ -409,6 +438,12 @@ export default function Home() {
                 active={activeView === 'profile'} 
                 onClick={() => { setActiveView('profile'); setIsMobileMenuOpen(false); }}
               />
+              <SidebarItem 
+                icon={<Bell className="w-6 h-6" />} 
+                label="Bot Settings" 
+                active={activeView === 'bot'} 
+                onClick={() => { setActiveView('bot'); setIsMobileMenuOpen(false); }}
+              />
             </nav>
             <div className="mt-auto pb-10 space-y-6">
               <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
@@ -434,7 +469,92 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         <div className="p-6 md:p-12 max-w-7xl mx-auto w-full">
-          {activeView === 'dashboard' ? (
+          {activeView === 'bot' ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-2xl mx-auto"
+            >
+              <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                <div className="p-6 border-b border-slate-100 bg-slate-50">
+                  <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <Bell className="w-5 h-5 text-slate-900" />
+                    Konfigurasi Bot 24 Jam (Vercel)
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Gunakan pengaturan ini agar bot tetap aktif 24 jam setelah di-deploy ke Vercel.
+                  </p>
+                </div>
+                
+                <div className="p-8 space-y-8">
+                  <section>
+                    <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px]">1</span>
+                      Set Webhook URL
+                    </h3>
+                    <p className="text-xs text-slate-600 mb-4">
+                      Masukkan URL Vercel Anda (contoh: <code>https://app-anda.vercel.app</code>) untuk mengaktifkan Webhook.
+                    </p>
+                    <div className="flex gap-3">
+                      <input
+                        type="url"
+                        placeholder="https://your-app.vercel.app"
+                        value={botUrl}
+                        onChange={(e) => setBotUrl(e.target.value)}
+                        className="flex-1 px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all text-sm"
+                      />
+                      <button
+                        onClick={handleSetWebhook}
+                        disabled={submitting || !botUrl}
+                        className="px-6 py-3 bg-slate-900 text-white rounded-md font-bold text-sm hover:bg-slate-800 transition-all disabled:opacity-50 flex items-center gap-2"
+                      >
+                        {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'SET WEBHOOK'}
+                      </button>
+                    </div>
+                    {botStatus?.success && (
+                      <div className="mt-3 p-3 bg-emerald-50 border border-emerald-100 rounded-md flex items-center gap-2 text-emerald-700 text-xs font-medium">
+                        <CheckCircle2 className="w-4 h-4" />
+                        Webhook berhasil dikonfigurasi!
+                      </div>
+                    )}
+                    {botStatus?.error && (
+                      <div className="mt-3 p-3 bg-red-50 border border-red-100 rounded-md flex items-center gap-2 text-red-700 text-xs font-medium">
+                        <AlertCircle className="w-4 h-4" />
+                        Gagal: {botStatus.error}
+                      </div>
+                    )}
+                  </section>
+
+                  <div className="h-px bg-slate-100" />
+
+                  <section>
+                    <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px]">2</span>
+                      Konfigurasi Vercel Cron
+                    </h3>
+                    <div className="bg-slate-900 rounded-lg p-6 text-slate-300 space-y-4">
+                      <p className="text-xs leading-relaxed">
+                        Agar pengingat otomatis berjalan setiap menit, pastikan file <code className="text-white">vercel.json</code> sudah ada di root project Anda.
+                      </p>
+                      <div className="bg-black/30 rounded p-3 font-mono text-[10px] text-emerald-400 overflow-x-auto">
+                        <pre>{`{
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "* * * * *"
+    }
+  ]
+}`}</pre>
+                      </div>
+                      <p className="text-[10px] text-slate-400 italic">
+                        * Catatan: Vercel Free Plan mungkin membatasi frekuensi eksekusi cron.
+                      </p>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </motion.div>
+          ) : activeView === 'dashboard' ? (
             <>
               <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
                 <div>
