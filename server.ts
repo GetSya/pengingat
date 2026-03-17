@@ -22,9 +22,16 @@ app.prepare().then(async () => {
     return;
   }
 
-  const bot = new TelegramBot(token, { polling: true });
+  const bot = new TelegramBot(token, { polling: process.env.NODE_ENV !== 'production' });
 
-  console.log('Telegram Bot initialized');
+  bot.on('polling_error', (error) => {
+    // Only log if it's not a connection reset which is common and noisy
+    if (!error.message.includes('ECONNRESET')) {
+      console.error('Telegram Polling Error:', error.message);
+    }
+  });
+
+  console.log(`Telegram Bot initialized (Polling: ${process.env.NODE_ENV !== 'production'})`);
 
   // Bot State (Simple in-memory for session-like behavior)
   const userStates: { [key: number]: { step: string; data?: any } } = {};
