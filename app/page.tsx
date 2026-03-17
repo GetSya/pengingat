@@ -256,9 +256,8 @@ export default function Home() {
   if (!isLoggedIn) {
     return (
       <main className="min-h-screen bg-[#f5f5f5] flex items-center justify-center p-6 font-sans">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-sky-100 rounded-full blur-[120px] opacity-60" />
-          <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-sky-50 rounded-full blur-[120px] opacity-60" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
         </div>
 
         <motion.div 
@@ -266,54 +265,54 @@ export default function Home() {
           animate={{ opacity: 1, scale: 1 }}
           className="w-full max-w-md relative z-10"
         >
-          <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-sky-900/5 p-10 border border-white">
+          <div className="bg-white rounded-lg shadow-xl p-10 border border-slate-200">
             <div className="text-center mb-10">
-              <div className="w-20 h-20 bg-sky-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-sky-500/20 rotate-3">
-                <Bell className="text-white w-10 h-10" />
+              <div className="w-16 h-16 bg-slate-900 rounded-md flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <Bell className="text-white w-8 h-8" />
               </div>
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">Reminder Bot</h1>
-              <p className="text-slate-500 font-medium">Silakan masuk untuk melanjutkan</p>
+              <h1 className="text-2xl font-bold text-slate-900 mb-1">Notif Xiamo</h1>
+              <p className="text-slate-500 text-sm">Sistem Pengingat Jatuh Tempo</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-5">
               {loginError && (
                 <motion.div 
-                  initial={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-red-50 text-red-600 p-4 rounded-2xl text-sm flex items-center gap-3 border border-red-100"
+                  className="bg-red-50 text-red-600 p-3 rounded-md text-xs flex items-center gap-3 border border-red-100"
                 >
-                  <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
                   {loginError}
                 </motion.div>
               )}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2 ml-1">Username</label>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Username</label>
                 <input
                   required
                   type="text"
                   value={loginData.username}
                   onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
-                  className="w-full px-6 py-4 rounded-2xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all bg-slate-50/50"
-                  placeholder="Username Anda"
+                  className="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all bg-white"
+                  placeholder="Username"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2 ml-1">Password</label>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Password</label>
                 <input
                   required
                   type="password"
                   value={loginData.password}
                   onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                  className="w-full px-6 py-4 rounded-2xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all bg-slate-50/50"
+                  className="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all bg-white"
                   placeholder="••••••••"
                 />
               </div>
               <button
                 disabled={submitting}
                 type="submit"
-                className="w-full bg-sky-500 text-white py-5 rounded-2xl font-bold hover:bg-sky-600 transition-all shadow-lg shadow-sky-500/25 flex items-center justify-center gap-3 active:scale-[0.98]"
+                className="w-full bg-slate-900 text-white py-4 rounded-md font-bold hover:bg-slate-800 transition-all flex items-center justify-center gap-3 active:scale-[0.99]"
               >
-                {submitting ? <Loader2 className="w-6 h-6 animate-spin" /> : 'Masuk Sekarang'}
+                {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'LOGIN'}
               </button>
             </form>
           </div>
@@ -328,46 +327,46 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#f5f5f5] font-sans text-slate-900 flex flex-col md:flex-row">
       {/* Sidebar - Desktop */}
-      <aside className="hidden md:flex w-72 bg-white border-r border-slate-200 flex-col sticky top-0 h-screen">
-        <div className="p-8 flex items-center gap-3">
-          <div className="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
-            <Bell className="text-white w-5 h-5" />
+      <aside className="hidden md:flex w-64 bg-slate-900 text-slate-300 flex-col sticky top-0 h-screen">
+        <div className="p-6 flex items-center gap-3 border-b border-slate-800">
+          <div className="w-8 h-8 bg-white rounded-md flex items-center justify-center">
+            <Bell className="text-slate-900 w-4 h-4" />
           </div>
-          <span className="text-xl font-bold tracking-tight">ReminderBot</span>
+          <span className="text-lg font-bold tracking-tight text-white">Notif Xiamo</span>
         </div>
 
-        <nav className="flex-1 px-4 space-y-2 mt-4">
+        <nav className="flex-1 px-3 space-y-1 mt-6">
           <SidebarItem 
-            icon={<Layers className="w-5 h-5" />} 
+            icon={<Layers className="w-4 h-4" />} 
             label="Dashboard" 
             active={activeView === 'dashboard'} 
             onClick={() => setActiveView('dashboard')}
           />
           <SidebarItem 
-            icon={<UserIcon className="w-5 h-5" />} 
+            icon={<UserIcon className="w-4 h-4" />} 
             label="Profil" 
             active={activeView === 'profile'} 
             onClick={() => setActiveView('profile')}
           />
         </nav>
 
-        <div className="p-6 border-t border-slate-100">
-          <div className="bg-slate-50 rounded-2xl p-4 mb-4">
-            <div className="flex items-center gap-3 mb-1">
-              <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center text-sky-600 font-bold text-xs">
+        <div className="p-4 border-t border-slate-800">
+          <div className="bg-slate-800/50 rounded-lg p-3 mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-slate-700 rounded-md flex items-center justify-center text-white font-bold text-xs">
                 {currentUser?.nama_lengkap.charAt(0)}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold truncate">{currentUser?.nama_lengkap}</p>
-                <p className="text-xs text-slate-500 truncate">@{currentUser?.username}</p>
+                <p className="text-xs font-bold text-white truncate">{currentUser?.nama_lengkap}</p>
+                <p className="text-[10px] text-slate-400 truncate">@{currentUser?.username}</p>
               </div>
             </div>
           </div>
           <button 
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all font-semibold text-sm"
+            className="w-full flex items-center gap-3 px-3 py-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-md transition-all font-medium text-xs"
           >
-            <LogOut className="w-5 h-5" /> Keluar
+            <LogOut className="w-4 h-4" /> LOGOUT
           </button>
         </div>
       </aside>
@@ -444,9 +443,9 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setIsFormOpen(true)}
-                  className="bg-sky-500 text-white px-8 py-4 rounded-2xl font-bold hover:bg-sky-600 transition-all shadow-xl shadow-sky-500/20 flex items-center justify-center gap-3 active:scale-95"
+                  className="bg-slate-900 text-white px-6 py-3 rounded-md font-bold hover:bg-slate-800 transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 text-sm"
                 >
-                  <Plus className="w-5 h-5" /> Tambah Pengingat
+                  <Plus className="w-4 h-4" /> TAMBAH DATA
                 </button>
               </header>
 
@@ -473,23 +472,20 @@ export default function Home() {
               </div>
 
               {/* Content Area */}
-              <div className="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-                <div className="p-6 md:p-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <h3 className="text-xl font-bold">Daftar Pengingat</h3>
+              <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                <div className="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/50">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-600">Daftar Pengingat</h3>
                   <div className="flex items-center gap-2">
                     <div className="relative">
-                      <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                       <input 
                         type="text" 
-                        placeholder="Cari..." 
+                        placeholder="Cari data..." 
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-9 pr-4 py-2 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 w-full sm:w-48"
+                        className="pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 w-full sm:w-48"
                       />
                     </div>
-                    <button className="p-2 bg-slate-50 rounded-xl border border-slate-100">
-                      <Filter className="w-4 h-4 text-slate-500" />
-                    </button>
                   </div>
                 </div>
                 
@@ -552,18 +548,17 @@ export default function Home() {
                                   {item.jam || '09:00'}
                                 </div>
                               </td>
-                              <td className="px-8 py-6">
+                              <td className="px-8 py-4">
                                 {isToday ? (
-                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-bold">
-                                    <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
+                                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 rounded text-[10px] font-bold uppercase">
                                     Hari Ini
                                   </span>
                                 ) : isPast ? (
-                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold">
+                                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-red-50 text-red-700 border border-red-200 rounded text-[10px] font-bold uppercase">
                                     Terlewat
                                   </span>
                                 ) : (
-                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">
+                                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded text-[10px] font-bold uppercase">
                                     Mendatang
                                   </span>
                                 )}
@@ -679,62 +674,62 @@ export default function Home() {
               className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-10 overflow-hidden"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              className="relative w-full max-w-lg bg-white rounded-lg shadow-2xl p-8 overflow-hidden border border-slate-200"
             >
               {success ? (
                 <div className="py-12 flex flex-col items-center text-center">
-                  <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-6">
-                    <CheckCircle2 className="w-12 h-12 text-emerald-500" />
+                  <div className="w-16 h-16 bg-emerald-50 rounded-md flex items-center justify-center mb-6">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-500" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-2">Berhasil Disimpan!</h3>
-                  <p className="text-slate-500 font-medium">Data pengingat telah diperbarui di sistem.</p>
+                  <h3 className="text-xl font-bold mb-1">Berhasil!</h3>
+                  <p className="text-slate-500 text-sm">Data telah disimpan ke sistem.</p>
                 </div>
               ) : (
                 <>
-                  <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-2xl font-bold">{editingItem ? 'Edit Pengingat' : 'Tambah Pengingat'}</h2>
-                    <button onClick={() => { setIsFormOpen(false); setEditingItem(null); }} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                  <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-100">
+                    <h2 className="text-lg font-bold uppercase tracking-tight">{editingItem ? 'Edit Data' : 'Tambah Data Baru'}</h2>
+                    <button onClick={() => { setIsFormOpen(false); setEditingItem(null); }} className="p-1 hover:bg-slate-100 rounded transition-colors">
                       <X className="w-5 h-5" />
                     </button>
                   </div>
 
-                  <form onSubmit={handleSubmitJT} className="space-y-6">
-                    <div className="grid grid-cols-1 gap-5">
+                  <form onSubmit={handleSubmitJT} className="space-y-5">
+                    <div className="grid grid-cols-1 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Email Tujuan</label>
+                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Email Tujuan</label>
                         <input
                           required
                           type="email"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full px-5 py-4 rounded-2xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all bg-slate-50/50"
+                          className="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all bg-white text-sm"
                           placeholder="email@tujuan.com"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Nama Sumber</label>
+                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nama Sumber</label>
                         <input
                           required
                           type="text"
                           value={formData.sumber}
                           onChange={(e) => setFormData({ ...formData, sumber: e.target.value })}
-                          className="w-full px-5 py-4 rounded-2xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all bg-slate-50/50"
+                          className="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all bg-white text-sm"
                           placeholder="Contoh: Hosting, Domain"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-3">Jatuh Tempo</label>
-                      <div className="flex p-1 bg-slate-100 rounded-2xl mb-4">
+                      <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Jatuh Tempo</label>
+                      <div className="flex p-1 bg-slate-100 rounded-md mb-4">
                         <button
                           type="button"
                           onClick={() => setFormData({ ...formData, dateType: 'flexible' })}
-                          className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${
-                            formData.dateType === 'flexible' ? 'bg-white shadow-sm text-sky-600' : 'text-slate-500'
+                          className={`flex-1 py-2 rounded text-xs font-bold transition-all ${
+                            formData.dateType === 'flexible' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-500'
                           }`}
                         >
                           Fleksibel
@@ -742,8 +737,8 @@ export default function Home() {
                         <button
                           type="button"
                           onClick={() => setFormData({ ...formData, dateType: 'manual' })}
-                          className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${
-                            formData.dateType === 'manual' ? 'bg-white shadow-sm text-sky-600' : 'text-slate-500'
+                          className={`flex-1 py-2 rounded text-xs font-bold transition-all ${
+                            formData.dateType === 'manual' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-500'
                           }`}
                         >
                           Manual
@@ -757,7 +752,7 @@ export default function Home() {
                             min="1"
                             value={formData.amount}
                             onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                            className="w-20 px-4 py-4 rounded-2xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all bg-slate-50/50 text-center font-bold"
+                            className="w-20 px-3 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all bg-white text-center font-bold text-sm"
                           />
                           <div className="flex-1 grid grid-cols-3 gap-2">
                             {['days', 'months', 'years'].map((u) => (
@@ -765,8 +760,8 @@ export default function Home() {
                                 key={u}
                                 type="button"
                                 onClick={() => setFormData({ ...formData, unit: u })}
-                                className={`py-4 rounded-2xl text-[10px] uppercase font-bold tracking-wider transition-all border ${
-                                  formData.unit === u ? 'bg-sky-500 border-sky-500 text-white' : 'bg-white border-slate-200 text-slate-500'
+                                className={`py-3 rounded-md text-[10px] uppercase font-bold tracking-wider transition-all border ${
+                                  formData.unit === u ? 'bg-slate-900 border-slate-900 text-white' : 'bg-white border-slate-300 text-slate-500'
                                 }`}
                               >
                                 {u === 'days' ? 'Hari' : u === 'months' ? 'Bulan' : 'Tahun'}
@@ -779,36 +774,35 @@ export default function Home() {
                           type="date"
                           value={formData.jatuh_tempo}
                           onChange={(e) => setFormData({ ...formData, jatuh_tempo: e.target.value })}
-                          className="w-full px-5 py-4 rounded-2xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all bg-slate-50/50 mb-4"
+                          className="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all bg-white text-sm mb-4"
                         />
                       )}
 
                       <div>
-                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">Jam Notifikasi (Opsional)</label>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Jam Notifikasi</label>
                         <input
                           type="time"
                           value={formData.jam}
                           onChange={(e) => setFormData({ ...formData, jam: e.target.value })}
-                          className="w-full px-5 py-4 rounded-2xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all bg-slate-50/50"
+                          className="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all bg-white text-sm"
                         />
-                        <p className="mt-2 text-[10px] text-slate-400 italic ml-1">Default: 09:00 WIB jika dikosongkan.</p>
                       </div>
                     </div>
 
-                    <div className="pt-4 flex gap-4">
+                    <div className="pt-4 flex gap-3">
                       <button
                         type="button"
                         onClick={() => { setIsFormOpen(false); setEditingItem(null); }}
-                        className="flex-1 px-6 py-4 rounded-2xl border border-slate-200 hover:bg-slate-50 transition-colors font-bold"
+                        className="flex-1 px-4 py-3 rounded-md border border-slate-300 hover:bg-slate-50 transition-colors font-bold text-sm"
                       >
-                        Batal
+                        BATAL
                       </button>
                       <button
                         disabled={submitting}
                         type="submit"
-                        className="flex-1 bg-sky-500 text-white px-6 py-4 rounded-2xl font-bold hover:bg-sky-600 transition-all shadow-lg shadow-sky-500/20 flex items-center justify-center gap-2"
+                        className="flex-1 px-4 py-3 rounded-md bg-slate-900 text-white hover:bg-slate-800 transition-colors font-bold text-sm flex items-center justify-center gap-2"
                       >
-                        {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Simpan'}
+                        {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'SIMPAN'}
                       </button>
                     </div>
                   </form>
@@ -826,8 +820,8 @@ function SidebarItem({ icon, label, active = false, onClick }: { icon: React.Rea
   return (
     <button 
       onClick={onClick}
-      className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all font-bold text-sm ${
-        active ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/20' : 'text-slate-500 hover:bg-slate-50'
+      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-md transition-all font-bold text-xs ${
+        active ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-white hover:bg-slate-800'
       }`}
     >
       {icon}
@@ -838,13 +832,13 @@ function SidebarItem({ icon, label, active = false, onClick }: { icon: React.Rea
 
 function StatCard({ icon, label, value, color }: { icon: React.ReactNode, label: string, value: string, color: string }) {
   return (
-    <div className="bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-200 flex items-center gap-6">
-      <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center ${color} shadow-sm`}>
+    <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200 flex items-center gap-5">
+      <div className={`w-12 h-12 rounded-md flex items-center justify-center ${color} border border-current opacity-80`}>
         {icon}
       </div>
       <div>
-        <div className="text-xs md:text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">{label}</div>
-        <div className="text-2xl md:text-3xl font-bold text-slate-900">{value}</div>
+        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{label}</div>
+        <div className="text-xl font-bold text-slate-900">{value}</div>
       </div>
     </div>
   );
